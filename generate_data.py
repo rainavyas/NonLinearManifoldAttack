@@ -63,11 +63,13 @@ if __name__ == "__main__":
     noise = np.random.default_rng().multivariate_normal(np.zeros(args.H), np.identity(args.H), num_points)
     data += noise
 
+    class_label = np.zeros((num_points, 1))
+    data = np.hstack((data, class_label))
+
     data_testA = data[:args.test_points_per_class]
     data_trainA = data[args.test_points_per_class:]
 
-    class_label = np.zeros((num_points, 1))
-    data = np.hstack((data, class_label))
+
 
     # Generate data points from class B and split
     mean = [args.mean_shift, 0]
@@ -79,11 +81,11 @@ if __name__ == "__main__":
     noise = np.random.default_rng().multivariate_normal(np.zeros(args.H), np.identity(args.H), num_points)
     data += noise
 
-    data_testB = data[:args.test_points_per_class]
-    data_trainB = data[args.test_points_per_class:]
-
     class_label = np.ones((num_points, 1))
     data = np.hstack((data, class_label))
+
+    data_testB = data[:args.test_points_per_class]
+    data_trainB = data[args.test_points_per_class:]
 
     # Merge A and B classes
     data_train = np.vstack((data_trainA, data_trainB))

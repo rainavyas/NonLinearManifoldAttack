@@ -4,9 +4,9 @@ class FFN(nn.Module):
     '''
     Feed Forward Network for binary classification
     '''
-    def __init__(self, num_hidden_layers=1, hidden_layer_size=10):
+    def __init__(self, num_hidden_layers=1, hidden_layer_size=10, inp_dim=6):
         super().__init__()
-        inp_layer = nn.Sequential(nn.Linear(3, hidden_layer_size), nn.ReLU())
+        inp_layer = nn.Sequential(nn.Linear(inp_dim, hidden_layer_size), nn.ReLU())
         out_layer = nn.Linear(hidden_layer_size, 1)
 
         hidden_layers = []

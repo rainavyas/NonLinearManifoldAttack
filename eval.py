@@ -47,7 +47,7 @@ if __name__ == "__main__":
     dl = DataLoader(ds, batch_size=args.B)
 
     # Initialise classifier
-    model = FFN(num_hidden_layers=args.num_hidden_layers, hidden_layer_size=args.hidden_layer_size)
+    model = FFN(num_hidden_layers=args.num_hidden_layers, hidden_layer_size=args.hidden_layer_size, inp_dim=x.size(1))
     model.load_state_dict(torch.load(args.MODEL, map_location=torch.device('cpu')))
     model.to(device)
 

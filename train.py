@@ -135,7 +135,7 @@ if __name__ == "__main__":
     dev_dl = DataLoader(dev_ds, batch_size=args.B)
 
     # Initialise classifier
-    model = FFN(num_hidden_layers=args.num_hidden_layers, hidden_layer_size=args.hidden_layer_size)
+    model = FFN(num_hidden_layers=args.num_hidden_layers, hidden_layer_size=args.hidden_layer_size, inp_dim=x_train.size(1))
     model.to(device)
 
     # Optimizer
