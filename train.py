@@ -138,6 +138,8 @@ if __name__ == "__main__":
     model = FFN(num_hidden_layers=args.num_hidden_layers, hidden_layer_size=args.hidden_layer_size, inp_dim=x_train.size(1))
     model.to(device)
 
+    import pdb; pdb.set_trace()
+
     # Optimizer
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, eps=1e-8)
 
