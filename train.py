@@ -165,5 +165,5 @@ if __name__ == "__main__":
         model_name = f'{args.OUT}/{args.ARCH}_layers{args.num_hidden_layers}_hsize_{args.hidden_layer_size}_{train_data_info}.th'
         if loss_val < best_loss:
             state = model.state_dict()
-            torch.save(state, args.OUT)
+            torch.save(state, model_name)
     
