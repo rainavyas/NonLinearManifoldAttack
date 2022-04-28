@@ -96,6 +96,7 @@ if __name__ == "__main__":
     commandLineParser.add_argument('--seed', type=int, default=1, help="Specify seed for reproducibility")
     commandLineParser.add_argument('--num_hidden_layers', type=int, default=1, help="number of hidden layers")
     commandLineParser.add_argument('--hidden_layer_size', type=int, default=10, help="size of hidden layers")
+    commandLineParser.add_argument('--force_cpu', type=str, default='no', help='do you want to use cpu only')
     args = commandLineParser.parse_args()
 
     set_seeds(args.seed)
@@ -108,6 +109,8 @@ if __name__ == "__main__":
 
     # Get the device
     device = get_default_device()
+    if args.force_cpu == 'yes':
+        device = torch.device('cpu')
 
     # Load the data as tensors
     with open(args.TRAIN_DATA, 'rb') as f:
