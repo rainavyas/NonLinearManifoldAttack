@@ -10,6 +10,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from models import FFN
+from non_linear_functions import linear_exp
 
 def get_fooling_rate(x, y, x_attacked, model):
     '''Fraction of correctly classified samples that are misclassified'''
@@ -24,7 +25,24 @@ def get_fooling_rate(x, y, x_attacked, model):
         correct_pred_attack = pred_attack[mask]
         fool_rate = 1 - (torch.eq(correct_pred_orig, correct_pred_attack).sum()/len(correct_pred_orig))
         return fool_rate
+    
 
+def dist_parallel(x, x_attacked, activation):
+    '''
+        Get perturbation distance along the manifold
+    '''
+    pert = activation(activation.inverse(x_attacked)) - activation(activation.inverse(x))
+    dists = torch.norm(pert, dim=-1)
+    return dists
+
+def dist_perpendicular(x, x_attacked, activation):
+    '''
+        Get perturbation distance normal to the manifold
+    '''
+    parallel_dists = dist_parallel(x, x_attacked, activation)
+    overall_dists = torch.norm((x_attacked-x), dim=-1)
+    normal_dists = (overall_dists**2 - parallel_dists**2)**0.5
+    return normal_dists
 
 if __name__ == "__main__":
 
@@ -34,6 +52,7 @@ if __name__ == "__main__":
     commandLineParser.add_argument('ARCH', type=str, help='ffn')
     commandLineParser.add_argument('ORIG_DATA', type=str, help='path to test.npy file')
     commandLineParser.add_argument('ATTACK_DATA', type=str, help='path to attacked test.npy file')
+    commandLineParser.add_argument('--activation', type=str, default='exp', help='non-linear activation')
     commandLineParser.add_argument('--num_hidden_layers', type=int, default=1, help="number of hidden layers")
     commandLineParser.add_argument('--hidden_layer_size', type=int, default=10, help="size of hidden layers")
     args = commandLineParser.parse_args()
@@ -56,8 +75,9 @@ if __name__ == "__main__":
     data = torch.from_numpy(data)
     x_attacked = data.type(torch.FloatTensor)
 
-    # diff = x_attacked-x
-    # import pdb; pdb.set_trace()
+    # Get the non-linear activation
+    if args.activation == 'exp':
+        activation = linear_exp(H=args.H)
 
     # Load classifier
     model = FFN(num_hidden_layers=args.num_hidden_layers, hidden_layer_size=args.hidden_layer_size, inp_dim=x.size(1))
@@ -67,6 +87,7 @@ if __name__ == "__main__":
     print(f'Fooling Rate: {get_fooling_rate(x, y, x_attacked, model)}')
 
     # Calculate average distance to manifold and distance parallel to manifold
-    # dists = torch.abs(x_attacked[:,-1])
-    # avg_dist = torch.mean(dists)
-    # print(f'Average distance from manifold: {avg_dist}')
+    parallel_dists = dist_parallel(x, x_attacked, activation)
+    normal_dists = dist_perpendicular(x, x_attacked, activation)
+    print(f'Parallel Distance: {torch.mean(parallel_dists)} +- {torch.std(parallel_dists)}')
+    print(f'Perpendicular Distance: {torch.mean(normal_dists)} +- {torch.std(normal_dists)}')
