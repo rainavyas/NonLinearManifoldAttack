@@ -53,6 +53,7 @@ if __name__ == "__main__":
     commandLineParser.add_argument('ORIG_DATA', type=str, help='path to test.npy file')
     commandLineParser.add_argument('ATTACK_DATA', type=str, help='path to attacked test.npy file')
     commandLineParser.add_argument('--activation', type=str, default='exp', help='non-linear activation')
+    commandLineParser.add_argument('--H', type=int, default=6, help='observation space dimensions')
     commandLineParser.add_argument('--num_hidden_layers', type=int, default=1, help="number of hidden layers")
     commandLineParser.add_argument('--hidden_layer_size', type=int, default=10, help="size of hidden layers")
     args = commandLineParser.parse_args()
