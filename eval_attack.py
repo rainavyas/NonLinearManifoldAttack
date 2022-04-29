@@ -33,7 +33,7 @@ def dist_parallel(x, x_attacked, activation):
     '''
     pert = activation(activation.inverse(x_attacked)) - activation(activation.inverse(x))
     dists = torch.norm(pert, dim=-1)
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     return dists
 
 def dist_perpendicular(x, x_attacked, activation):
