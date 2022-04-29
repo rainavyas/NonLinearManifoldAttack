@@ -44,6 +44,7 @@ class linear_exp():
             X: np.array [Batch x H]
             returns: np.array [Batch x 2]
         '''
+        X[X<=0] = 0.000001
         return np.matmul(np.log(X), self.linear_inverse)
 
 
