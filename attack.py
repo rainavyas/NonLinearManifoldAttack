@@ -15,7 +15,7 @@ import numpy as np
 
 def pgd_attack(x, y, model, criterion, delta, steps=1):
     '''
-    x: torch.Tensor [Bx3]
+    x: torch.Tensor [BxH]
     y: torch.Tensor [B]
     
     Perform Projected Gradient Descent attack
