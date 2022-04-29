@@ -24,7 +24,9 @@ def pgd_attack(x, y, model, criterion, delta, steps=1):
     s = nn.Sigmoid()
     x_attacked = x+0
     for step in range(steps):
+        model.zero_grad()
         x_attacked.requires_grad = True
+        x_attacked.grad = 0
         x_attacked.retain_grad()
         pred = s(model(x_attacked))
         loss = criterion(pred, y)
