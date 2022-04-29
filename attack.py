@@ -92,7 +92,7 @@ if __name__ == "__main__":
 
     # Attack
     if args.ATTACK == 'pgd':
-        x_attacked = pgd_attack(x, y, model, criterion, args.epsilon, args.PGD_steps)
+        x_attacked = pgd_attack(x, y, model, criterion, args.delta, args.PGD_steps)
     
     # Save the attacked data
     model_filebase = args.MODEL
