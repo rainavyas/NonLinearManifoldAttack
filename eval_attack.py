@@ -66,8 +66,7 @@ if __name__ == "__main__":
     # Calculate fooling rate
     print(f'Fooling Rate: {get_fooling_rate(x, y, x_attacked, model)}')
 
-    # Calculate average distance to manifold
-    # As we have used the x-y plane we just need to look at the z-ccordinate
-    dists = torch.abs(x_attacked[:,-1])
-    avg_dist = torch.mean(dists)
-    print(f'Average distance from manifold: {avg_dist}')
+    # Calculate average distance to manifold and distance parallel to manifold
+    # dists = torch.abs(x_attacked[:,-1])
+    # avg_dist = torch.mean(dists)
+    # print(f'Average distance from manifold: {avg_dist}')
