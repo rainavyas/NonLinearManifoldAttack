@@ -30,8 +30,9 @@ def pgd_attack(x, y, model, criterion, delta, steps=1):
         loss = criterion(pred, y)
         loss.backward()
 
-        new_pos = x_attacked + x_attacked.grad
-        x_attacked = x + delta*(new_pos-x)/(torch.linalg.norm(new_pos-x))
+        with torch.no_grad():
+            new_pos = x_attacked + x_attacked.grad
+            x_attacked = x + delta*(new_pos-x)/(torch.linalg.norm(new_pos-x))
 
     # import pdb; pdb.set_trace()
     return x_attacked
