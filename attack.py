@@ -32,9 +32,8 @@ def pgd_attack(x, y, model, criterion, delta, steps=1):
 
         with torch.no_grad():
             new_pos = x_attacked + x_attacked.grad
-            # import pdb; pdb.set_trace()
             x_attacked = x + delta*(new_pos-x)/(torch.norm((new_pos-x), dim=-1).unsqueeze(1).repeat(1, x.size(-1)))
-
+        import pdb; pdb.set_trace()
     return x_attacked
 
 def fgsm_attack(x, y, model, criterion, delta):
