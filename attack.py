@@ -28,9 +28,9 @@ def pgd_attack(x, y, model, criterion, delta, steps=1):
         x_attacked.requires_grad = True
         x_attacked.grad = torch.zeros(x.size())
         x_attacked.retain_grad()
-        pred = s(model(x_attacked))
+        pred = 0.9999*s(model(x_attacked)) + 0.001
         import pdb; pdb.set_trace()
-        loss = 0.9999*criterion(pred, y) + 0.001
+        loss = criterion(pred, y)
         import pdb; pdb.set_trace()
         loss.backward()
 
