@@ -26,7 +26,7 @@ def pgd_attack(x, y, model, criterion, delta, steps=1):
     for step in range(steps):
         model.zero_grad()
         x_attacked.requires_grad = True
-        x_attacked.grad = torch.zeros(*x.size())
+        x_attacked.grad = torch.zeros(x.size())
         x_attacked.retain_grad()
         pred = s(model(x_attacked))
         loss = criterion(pred, y)
