@@ -30,7 +30,7 @@ def pgd_attack(x, y, model, criterion, delta, steps=1):
         x_attacked.retain_grad()
         pred = s(model(x_attacked))
         import pdb; pdb.set_trace()
-        loss = criterion(pred, y)
+        loss = 0.9999*criterion(pred, y) + 0.001
         import pdb; pdb.set_trace()
         loss.backward()
 
