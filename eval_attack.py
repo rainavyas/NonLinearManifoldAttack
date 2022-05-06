@@ -93,3 +93,4 @@ if __name__ == "__main__":
     normal_dists = dist_perpendicular(x, x_attacked, activation)
     print(f'Parallel Distance: {torch.mean(parallel_dists)} +- {torch.std(parallel_dists)}')
     print(f'Perpendicular Distance: {torch.mean(normal_dists)} +- {torch.std(normal_dists)}')
+    print(f'Ratio parallel/perp: {torch.mean(parallel_dists)/torch.mean(normal_dists)}')
