@@ -42,7 +42,7 @@ def dist_perpendicular(x, x_attacked, activation):
     '''
     parallel_dists = dist_parallel(x, x_attacked, activation)
     overall_dists = torch.norm((x_attacked-x), dim=-1)
-    normal_dists = (overall_dists**2 - parallel_dists**2)**0.5
+    normal_dists = (torch.abs(overall_dists**2 - parallel_dists**2))**0.5
     import pdb; pdb.set_trace()
     return normal_dists
 
